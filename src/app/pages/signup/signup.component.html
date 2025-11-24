@@ -1,0 +1,192 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <!-- Left side - Illustration -->
+    <div class="signup-illustration">
+      <div class="illustration-content">
+        <div class="blur-bg blur-1"></div>
+        <div class="blur-bg blur-2"></div>
+        <div class="glass-card">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <line x1="19" y1="8" x2="19" y2="14"></line>
+            <line x1="22" y1="11" x2="16" y2="11"></line>
+          </svg>
+          <h2>Join Our Community</h2>
+          <p>Create an account and start your learning journey with thousands of courses at your fingertips.</p>
+          <div class="features">
+            <div class="feature-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Free account creation</span>
+            </div>
+            <div class="feature-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Access to premium content</span>
+            </div>
+            <div class="feature-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Track your progress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side - Form -->
+    <div class="signup-form-section">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <h1 class="signup-title">Create Account</h1>
+        <p class="signup-subtitle">Sign up to get started with your learning</p>
+      </div>
+
+      <div class="form-container">
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            [(ngModel)]="fullName"
+            placeholder="John Doe"
+            class="form-input"
+            [class.error]="errors.fullName"
+          />
+          <span class="error-message" *ngIf="errors.fullName">{{errors.fullName}}</span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            placeholder="you@example.com"
+            class="form-input"
+            [class.error]="errors.email"
+          />
+          <span class="error-message" *ngIf="errors.email">{{errors.email}}</span>
+        </div>
+<!-- Phone Number -->
+<div class="form-group">
+  <label for="phone">Phone Number</label>
+  <input
+    type="text"
+    id="phone"
+    [(ngModel)]="phone"
+    placeholder="0550-123-456"
+    class="form-input"
+    [class.error]="errors.phone"
+  />
+  <span class="error-message" *ngIf="errors.phone">{{errors.phone}}</span>
+</div>
+
+<!-- Student ID -->
+<div class="form-group">
+  <label for="student_id">Student ID</label>
+  <input
+    type="text"
+    id="student_id"
+    [(ngModel)]="student_id"
+    placeholder="EX: 22334455"
+    class="form-input"
+    [class.error]="errors.student_id"
+  />
+  <span class="error-message" *ngIf="errors.student_id">{{errors.student_id}}</span>
+</div>
+
+<!-- Level -->
+<div class="form-group">
+  <label for="level">Level</label>
+  <select
+    id="level"
+    [(ngModel)]="level"
+    class="form-input"
+    [class.error]="errors.level"
+  >
+    <option value="">Select level</option>
+    <option value="L1">L1</option>
+    <option value="L2">L2</option>
+    <option value="L3SI">L3 SI</option>
+    <option value="L3ISIL">L3 ISIL</option>
+    <option value="M1ISIL">M1 ISIL</option>
+    <option value="M1GSI">M1GSI</option>
+    <option value="M2ISIL">M2ISIL</option>
+    <option value="M2GSI">M2GSI</option>
+  </select>
+
+  <span class="error-message" *ngIf="errors.level">{{errors.level}}</span>
+</div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="password"
+            (input)="checkPasswordStrength()"
+            placeholder="••••••••"
+            class="form-input"
+            [class.error]="errors.password"
+          />
+          <div class="password-strength" *ngIf="passwordStrength">
+            <div class="strength-bar">
+              <div
+                class="strength-fill"
+                [style.width]="passwordStrength === 'Weak' ? '33%' : passwordStrength === 'Medium' ? '66%' : '100%'"
+                [style.background-color]="passwordStrengthColor"
+              ></div>
+            </div>
+            <span class="strength-text" [style.color]="passwordStrengthColor">{{passwordStrength}}</span>
+          </div>
+          <span class="error-message" *ngIf="errors.password">{{errors.password}}</span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="••••••••"
+            class="form-input"
+            [class.error]="errors.confirmPassword"
+          />
+          <span class="error-message" *ngIf="errors.confirmPassword">{{errors.confirmPassword}}</span>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="form-group">
+          <label class="checkbox-label" [class.error]="errors.terms">
+            <input type="checkbox" [(ngModel)]="acceptTerms" />
+            <span>I agree to the <a href="#" class="link">Terms and Conditions</a> and <a href="#" class="link">Privacy Policy</a></span>
+          </label>
+          <span class="error-message" *ngIf="errors.terms">{{errors.terms}}</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button (click)="onSubmit()" class="btn-primary">
+          Create Account
+        </button>
+      </div>
+
+      <p class="login-text">
+        Already have an account? <a (click)="goToLogin()" class="login-link">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>

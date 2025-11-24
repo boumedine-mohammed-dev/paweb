@@ -1,0 +1,120 @@
+<div class="courses-container">
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <span class="logo-text">EduPlatform</span>
+      </div>
+      <div class="nav-links">
+        <p (click)="navigateTo('')" class="nav-link">Home</p>
+        <p (click)="navigateTo('courses')" class="nav-link active">Courses</p>
+        <p (click)="navigateTo('dashboard')" class="nav-link">Dashboard</p>
+        <p (click)="navigateTo('profile')" class="nav-link">Profile</p>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header-section">
+      <h1 class="page-title">All Courses</h1>
+      <p class="page-subtitle">Explore our comprehensive course library</p>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="search-filter-bar">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="Search courses..."
+          class="search-input"
+        />
+      </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="category-filter">
+      <button
+        *ngFor="let category of categories"
+        (click)="selectCategory(category)"
+        [class.active]="selectedCategory === category"
+        class="category-btn"
+      >
+        {{category}}
+      </button>
+    </div>
+
+    <!-- Course Grid -->
+    <div class="courses-grid">
+  <div *ngFor="let course of paginatedCourses" class="course-card" >
+        <div class="course-image" [ngClass]="course.color">
+<img src={{course?.thumbnail}} style="width: 100%;height: 100%;" (click)="navigateToCours(course.id)"/>
+        </div>
+        <div class="course-body">
+    <!-- Title -->
+    <h3 class="course-title">{{course.title}} - {{course.level.slice(2)}}</h3>
+
+    <!-- Semester -->
+    <p class="course-semester">{{course.level.slice(0,2)}} - Semester {{course.semester.slice(1)}}</p>
+
+<button class="enroll-btn" *ngIf="!course.enrolled" (click)="enroll(course)">
+  Enroll
+</button>
+<div *ngIf="course.enrolled">
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" [ngClass]="course.color" [style.width.%]="course.progress"></div>
+            </div>
+          </div>
+          <p class="progress-text">{{course.progress}}% Complete</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button
+        class="page-btn"
+        (click)="changePage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <button
+        *ngFor="let page of pages"
+        (click)="changePage(page)"
+        [class.active]="currentPage === page"
+        class="page-number"
+      >
+        {{page}}
+      </button>
+
+      <button
+        class="page-btn"
+        (click)="changePage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

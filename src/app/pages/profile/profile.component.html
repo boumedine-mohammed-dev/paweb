@@ -1,0 +1,194 @@
+<!-- ============================================
+     PROFILE COMPONENT HTML
+     ============================================ -->
+
+<div class="profile-container">
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <span class="logo-text">EduPlatform</span>
+      </div>
+      <div class="nav-links">
+        <p (click)="navigateTo('')"class="nav-link">Home</p>
+        <p (click)="navigateTo('courses')" class="nav-link">Courses</p>
+        <p (click)="navigateTo('dashboard')" class="nav-link">Dashboard</p>
+<p (click)="navigateTo('profile')" class="nav-link active">Profile</p>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading profile...</p>
+  </div>
+
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <span>{{successMessage}}</span>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error && !isLoading" class="alert alert-error">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <span>{{error}}</span>
+  </div>
+
+  <!-- Profile Content -->
+  <div *ngIf="!isLoading && profile" class="profile-content">
+
+    <!-- Profile Header Card -->
+    <div class="profile-header-card">
+      <div class="header-background"></div>
+      <div class="header-content">
+        <!-- Avatar Section -->
+
+
+        <!-- User Info -->
+        <div class="user-info">
+          <h1 class="user-name" *ngIf="!isEditing">{{profile.fullName}}</h1>
+          <input
+            *ngIf="isEditing"
+            type="text"
+            [(ngModel)]="editForm.fullName"
+            class="edit-input edit-name"
+            placeholder="Full Name"
+          >
+          <p class="user-email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span *ngIf="!isEditing">{{profile.email}}</span>
+            <input
+              *ngIf="isEditing"
+              type="email"
+              [(ngModel)]="editForm.email"
+              class="edit-input-inline"
+              placeholder="Email"
+            >
+          </p>
+          <!-- Save/Cancel Buttons -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card" (click)="goToCourses()">
+        <div class="stat-icon blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>{{profile.totalCourses}}</h3>
+          <p>Total Courses</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>{{profile.completedCourses}}</h3>
+          <p>Completed</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Details -->
+    <div class="profile-details-grid">
+      <!-- Personal Information -->
+      <div class="detail-card">
+        <div class="detail-header">
+          <h2>Personal Information</h2>
+        </div>
+        <div class="detail-body">
+          <div class="detail-item">
+            <label>Phone Number</label>
+            <p *ngIf="!isEditing">{{profile.phone || 'Not provided'}}</p>
+            <input
+              *ngIf="isEditing"
+              type="tel"
+              [(ngModel)]="editForm.phone"
+              class="edit-input"
+              placeholder="Phone Number"
+            >
+          </div>
+
+          <div class="detail-item">
+            <label>Level</label>
+            <p *ngIf="!isEditing">{{profile.level}}</p>
+            <select *ngIf="isEditing" [(ngModel)]="editForm.level" class="edit-select">
+              <option value="L1">L1</option>
+              <option value="L2">L2</option>
+              <option value="L3SI">L3SI</option>
+              <option value="L3ISIL">L3ISIL</option>
+              <option value="M1ISIL">M1ISIL</option>
+              <option value="M2ISIL">M2ISIL</option>
+              <option value="M1GSI">M1GSI</option>
+              <option value="M2GSI">M2GSI</option>
+            </select>
+          </div>
+
+          <div class="detail-item">
+            <label>Student ID</label>
+            <p *ngIf="!isEditing">{{profile.studentId}}</p>
+            <input
+              *ngIf="isEditing"
+              type="text"
+              [(ngModel)]="editForm.studentId"
+              class="edit-input"
+              placeholder="Student ID"
+            >
+          </div>
+
+          <div class="detail-item">
+            <label>Member Since</label>
+            <p>{{formatDate(profile.joinDate)}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone">
+      <div class="danger-header">
+        <h2>Danger Zone</h2>
+      </div>
+      <div class="danger-body">
+        <button class="btn btn-danger" (click)="logout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+</div>

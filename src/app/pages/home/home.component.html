@@ -1,0 +1,114 @@
+<div class="home-container">
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <span class="logo-text">EduPlatform</span>
+      </div>
+      <div class="nav-links">
+        <p (click)="navigateTo('')" class="nav-link">Home</p>
+        <p (click)="navigateTo('courses')" class="nav-link">Courses</p>
+                <p (click)="navigateTo('dashboard')" class="nav-link">Dashboard</p>
+        <p (click)="navigateTo('profile')" class="nav-link">Profile</p>
+
+        <div class="user-avatar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <h1 class="hero-title">Welcome Back, {{userName}}!</h1>
+      <p class="hero-subtitle">Continue your learning journey today</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="Search for courses, topics, or instructors..."
+          class="search-input"
+        />
+      </div>
+    </div>
+
+    <!-- Quick Navigation Cards -->
+    <div class="cards-grid">
+      <div class="nav-card" (click)="navigateTo('dashboard')">
+        <div class="card-icon blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </div>
+        <h3 class="card-title">Dashboard</h3>
+        <p class="card-desc">View your progress and statistics</p>
+      </div>
+
+      <div class="nav-card" (click)="navigateTo('courses')">
+        <div class="card-icon green">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <h3 class="card-title">Courses</h3>
+        <p class="card-desc">Browse and enroll in courses</p>
+      </div>
+
+      <div class="nav-card" (click)="navigateTo('profile')">
+        <div class="card-icon purple">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <h3 class="card-title">Profile</h3>
+        <p class="card-desc">Manage your account settings</p>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="recent-section">
+      <h2 class="section-title">Continue Learning</h2>
+      <div class="recent-grid">
+        <div *ngFor="let course of recentCourses" class="course-card">
+          <div class="course-content">
+            <div class="course-thumb" [ngClass]="course.color"><img src={{course.thumbnail}} style="width: 100%;height: 100%;border-radius: 12px;"/></div>
+            <div class="course-info">
+              <h4 class="course-title">{{course.title}}</h4>
+              <p class="course-access">Last accessed {{course.lastAccessed}}</p>
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="course.progress"></div>
+              </div>
+              <p class="progress-text">{{course.progress}}% Complete</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

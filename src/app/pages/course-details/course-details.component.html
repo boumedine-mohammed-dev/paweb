@@ -1,0 +1,163 @@
+<div class="course-details-container">
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <button class="back-btn" (click)="goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>Back to Courses</span>
+      </button>
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <span class="logo-text">EduPlatform</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading course details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <p>{{error}}</p>
+    <button (click)="getCourseDetails()" class="retry-btn">Try Again</button>
+  </div>
+
+  <!-- Course Content -->
+  <div *ngIf="!isLoading && !error && course" class="course-content">
+    <!-- Course Header -->
+    <div class="course-header">
+      <div class="header-content">
+        <div class="breadcrumb">
+          <span>Courses</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+          <span class="current">{{course.title}}</span>
+        </div>
+
+        <h1 class="course-title">{{course.title}}</h1>
+
+        <div class="course-meta">
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+
+          </div>
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+
+          </div>
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <span class="progress-label">Your Progress</span>
+            <span class="progress-value">{{course.completed_lessons}}/{{course.total_lessons}} lessons completed</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" [style.width.%]="course.progress"></div>
+          </div>
+          <span class="progress-percentage">{{course.progress}}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Content Section -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2>Course Content</h2>
+        <div class="section-actions">
+          <button class="action-btn" (click)="toggleAll()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline *ngIf="!allExpanded" points="6 9 12 15 18 9"></polyline>
+              <polyline *ngIf="allExpanded" points="18 15 12 9 6 15"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Accordion Sections -->
+      <div class="accordion">
+        <div *ngFor="let section of course.sections" class="accordion-section">
+          <div class="section-title" (click)="toggleSection(section)">
+            <div class="title-left">
+              <svg class="chevron" [class.expanded]="section.isExpanded" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              <span>{{section.title}}</span>
+            </div>
+            <div class="title-right">
+              <span class="lesson-count">{{section.lessons.length}} lessons</span>
+            </div>
+          </div>
+
+          <div class="section-content" [class.expanded]="section.isExpanded">
+            <div *ngFor="let lesson of section.lessons" class="lesson-item" (click)="openLesson(lesson)">
+              <div class="lesson-left">
+                <div class="lesson-checkbox" [class.completed]="lesson.completed">
+                  <svg *ngIf="lesson.completed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <svg class="lesson-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path *ngIf="lesson.type === 'Page'" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline *ngIf="lesson.type === 'Page'" points="14 2 14 8 20 8"></polyline>
+                  <line *ngIf="lesson.type === 'Page'" x1="16" y1="13" x2="8" y2="13"></line>
+                  <line *ngIf="lesson.type === 'Page'" x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline *ngIf="lesson.type === 'Page'" points="10 9 9 9 8 9"></polyline>
+
+                  <path *ngIf="lesson.type === 'PDF' || lesson.type === 'DOCX'" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline *ngIf="lesson.type === 'PDF' || lesson.type === 'DOCX'" points="14 2 14 8 20 8"></polyline>
+
+                  <path *ngIf="lesson.type === 'URL'" d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path *ngIf="lesson.type === 'URL'" d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="lesson-title">{{lesson.title}}</span>
+                <span class="lesson-type-badge" [ngClass]="lesson.type.toLowerCase()">{{lesson.type}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
